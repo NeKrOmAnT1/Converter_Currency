@@ -23,7 +23,7 @@
         <Label Content="Целевая валюта:" FontSize="20"/>
         <ComboBox ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedTwoCurrency}" Width="150" />
 
-        <Button Content="Конвертировать" Margin="10" Width="auto" Height="30" />
+        <Button Content="Конвертировать" Margin="10" Width="auto" Height="30" Command="{Binding ConvertCurrencyCommand}" />
 
         <Label Content="Результат:" FontSize="20" HorizontalAlignment="Left"/>
             <TextBlock Text="{Binding ResultCurrency}" HorizontalAlignment="Left" Width="399" Height="30" />

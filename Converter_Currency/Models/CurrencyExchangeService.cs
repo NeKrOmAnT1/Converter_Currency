@@ -40,9 +40,46 @@ namespace Converter_Currency.Models
                 }
             }
         }
-            
+        public async Task<decimal> ConvertCurrencyAsync(string fromCurrency, string toCurrency, decimal amount)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(ApiUrl);
 
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string data = await response.Content.ReadAsStringAsync();
+                        var currencyData = JsonConvert.DeserializeObject<CurrencyData>(data);
+
+                        if (currencyData.Valute.ContainsKey(fromCurrency) && currencyData.Valute.ContainsKey(toCurrency))
+                        {
+                            decimal fromRate = currencyData.Valute[fromCurrency].ExchangeRate;
+                            decimal toRate = currencyData.Valute[toCurrency].ExchangeRate;
+
+                            decimal result = (amount / fromRate) * toRate;
+
+                            return result;
+                        }
+                        else
+                        {
+                            throw new Exception("Выбранные валюты не найдены в данных.");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Не удалось получить данные с API.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Произошла ошибка при конвертации валют.", ex);
+            }
+        }
     }
+
 
     public class CurrencyData
     {
@@ -50,8 +87,13 @@ namespace Converter_Currency.Models
     }
     public class CurrencyInfo
     {
-        public string Name { get; set;}
-        public decimal Value { get; set;}
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public decimal ExchangeRate { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Code} - {ExchangeRate}";
+        }
     }
 }
