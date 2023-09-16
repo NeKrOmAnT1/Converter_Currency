@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Converter_Currency.ViewModels
@@ -37,7 +38,6 @@ namespace Converter_Currency.ViewModels
             if (currencyList != null)
             {
                 Currencies = new ObservableCollection<string>(currencyList);
-                // валюта по умолчанию
                 SelectedCurrency = currencyList[0];
             }
             else
@@ -47,11 +47,11 @@ namespace Converter_Currency.ViewModels
         }
         private async void ConvertCurrency()
         {
-            Console.WriteLine("ConvertCurrency method called."); 
+            MessageBox.Show("Вызван метод ConvertCurrency");
 
             if (Original <= 0)
             {
-                Console.WriteLine("Invalid input: Original is less than or equal to 0."); 
+                MessageBox.Show("Неверный вход");
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace Converter_Currency.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error during currency conversion: {ex.Message}");
+                MessageBox.Show(ex.Message);
 
             }
         }

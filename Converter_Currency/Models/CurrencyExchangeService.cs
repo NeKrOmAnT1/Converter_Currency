@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace Converter_Currency.Models
 {
@@ -93,7 +94,7 @@ namespace Converter_Currency.Models
 
         public override string ToString()
         {
-            return $"{Code} - {ExchangeRate}";
+            return $"{Code} - {ExchangeRate}"; // тест
         }
     }
 }
